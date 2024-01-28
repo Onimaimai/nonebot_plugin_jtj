@@ -39,13 +39,6 @@ async def scheduled_task():
 
 STATE_FILE = "state.json"
 EMPTY_STATE = [
-  	{
-      	"primary_keyword": "学堂",
-        "keywords": ["学堂", "xt"],
-        "peopleCount": 0,
-        "updatedBy": "无",
-        "lastUpdatedAt": "00:00:00",
-    },
     {
       	"primary_keyword": "工位",
         "keywords": ["工位", "gw"],
@@ -112,6 +105,13 @@ EMPTY_STATE = [
   	{
       	"primary_keyword": "海底捞",
         "keywords": ["捞", "hdl"],
+        "peopleCount": 0,
+        "updatedBy": "无",
+        "lastUpdatedAt": "00:00:00",
+    },
+	{
+      	"primary_keyword": "萨莉亚",
+        "keywords": ["萨", "sly"],
         "peopleCount": 0,
         "updatedBy": "无",
         "lastUpdatedAt": "00:00:00",
