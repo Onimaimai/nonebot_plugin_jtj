@@ -240,7 +240,7 @@ async def handle_arcade(bot: Bot, event: Event):
         user_id = event.user_id
         group_id = event.group_id
         user_info = await bot.get_group_member_info(group_id=group_id, user_id=user_id)
-        user_nickname = user_info.get('card', '') or user_info.get('nickname', '')  # 获取群名片或昵称
+        user_nickname = user_info.get('nickname', '') + "(" + event.get_user_id() + ")"  # 获取群昵称
     else:
         user_nickname = event.get_user_id()  # 对于非群消息，使用用户 ID
 
