@@ -3,7 +3,6 @@ def get_all_regions():
     return list(set([arcade["region"] for arcade in EMPTY_STATE]))
 
 EMPTY_STATE = [
-    
     {
       	"primary_keyword": "丁桥天街菲游乐",
         "keywords": ["菲游乐","fyl","丁桥天街"],
@@ -29,7 +28,7 @@ EMPTY_STATE = [
         "region": "杭州"
     },
   	{
-      	"primary_keyword": "天空之城mai",
+      	"primary_keyword": "西湖银泰天空之城mai",
         "keywords": ["天空mai", "tkmai"],
         "peopleCount": 0,
         "updatedBy": "无",
@@ -37,7 +36,7 @@ EMPTY_STATE = [
         "region": "杭州"
     },
     {
-      	"primary_keyword": "天空之城chu",
+      	"primary_keyword": "西湖银泰天空之城chu",
         "keywords": ["天空chu", "tkchu"],
         "peopleCount": 0,
         "updatedBy": "无",
@@ -133,7 +132,7 @@ EMPTY_STATE = [
         "region": "台州"
     },
     {
-      	"primary_keyword": "银泰 POP BEAR",
+      	"primary_keyword": "丽水银泰 POP BEAR",
         "keywords": ["银"],
         "peopleCount": 0,
         "updatedBy": "无",
@@ -182,11 +181,107 @@ EMPTY_STATE = [
     },
     {
       	"primary_keyword": "临安宝龙七彩天空",
-        "keywords": ["b"],
+        "keywords": ["bl"],
         "peopleCount": 0,
         "updatedBy": "无",
         "lastUpdatedAt": "04:00:00",
         "region": "临安"
+    },
+    {
+      	"primary_keyword": "义乌吾悦城市英雄",
+        "keywords": ["ch"],
+        "peopleCount": 0,
+        "updatedBy": "无",
+        "lastUpdatedAt": "04:00:00",
+        "region": "义乌"
+    },
+    {
+      	"primary_keyword": "青口宝龙合电占",
+        "keywords": ["hdz"],
+        "peopleCount": 0,
+        "updatedBy": "无",
+        "lastUpdatedAt": "04:00:00",
+        "region": "义乌"
+    },
+    {
+      	"primary_keyword": "奕部落科技动漫城",
+        "keywords": ["ybl"],
+        "peopleCount": 0,
+        "updatedBy": "无",
+        "lastUpdatedAt": "04:00:00",
+        "region": "义乌"
+    },
+    {
+      	"primary_keyword": "义乌之心炫技星空",
+        "keywords": ["xg"],
+        "peopleCount": 0,
+        "updatedBy": "无",
+        "lastUpdatedAt": "04:00:00",
+        "region": "义乌"
+    },
+    {
+      	"primary_keyword": "义乌之心天空之城",
+        "keywords": ["tk"],
+        "peopleCount": 0,
+        "updatedBy": "无",
+        "lastUpdatedAt": "04:00:00",
+        "region": "义乌"
+    },
+    {
+      	"primary_keyword": "佛堂部落酷玩",
+        "keywords": ["bl"],
+        "peopleCount": 0,
+        "updatedBy": "无",
+        "lastUpdatedAt": "04:00:00",
+        "region": "义乌"
+    },
+    {
+      	"primary_keyword": "义乌天地第一回合",
+        "keywords": ["td"],
+        "peopleCount": 0,
+        "updatedBy": "无",
+        "lastUpdatedAt": "04:00:00",
+        "region": "义乌"
+    },
+    {
+      	"primary_keyword": "",
+        "keywords": [""],
+        "peopleCount": 0,
+        "updatedBy": "无",
+        "lastUpdatedAt": "04:00:00",
+        "region": ""
+    },
+    {
+      	"primary_keyword": "",
+        "keywords": [""],
+        "peopleCount": 0,
+        "updatedBy": "无",
+        "lastUpdatedAt": "04:00:00",
+        "region": ""
+    },
+    {
+      	"primary_keyword": "",
+        "keywords": [""],
+        "peopleCount": 0,
+        "updatedBy": "无",
+        "lastUpdatedAt": "04:00:00",
+        "region": ""
+    },
+    {
+      	"primary_keyword": "",
+        "keywords": [""],
+        "peopleCount": 0,
+        "updatedBy": "无",
+        "lastUpdatedAt": "04:00:00",
+        "region": ""
+    },
+    {
+      	"primary_keyword": "",
+        "keywords": [""],
+        "peopleCount": 0,
+        "updatedBy": "无",
+        "lastUpdatedAt": "04:00:00",
+        "region": ""
     },
   
 ]
