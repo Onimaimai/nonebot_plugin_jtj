@@ -11,7 +11,7 @@ from .arcade_data import EMPTY_STATE, get_all_regions
 
 SUPERUSERS = get_driver().config.superusers
 
-__zx_plugin_name__ = "jtj"
+__zx_plugin_name__ = "机厅 help"
 
 
 help_handler = on_command("机厅 help", priority=10, block=True)
@@ -58,10 +58,27 @@ async def handle_reset(bot: Bot, event: Event):
         await reset_handler.send("机厅人数已重置")
 
 def reset_state():
+    updated_data = []
+
+    # 遍历 arcade_data.py 中的所有机厅
+    for arcade in EMPTY_STATE:
+        # 初始化机厅的状态，人数设置为 0，更新时间为 04:00:00
+        reset_arcade = {
+            "primary_keyword": arcade["primary_keyword"],
+            "keywords": arcade["keywords"],
+            "peopleCount": 0,
+            "updatedBy": "无",
+            "lastUpdatedAt": "04:00:00",
+            "region": arcade["region"]
+        }
+        updated_data.append(reset_arcade)
+
+    # 将初始化后的数据写入 state.json 文件
     with open(STATE_FILE, 'w', encoding='utf-8') as file:
-        json.dump(EMPTY_STATE, file, ensure_ascii=False, indent=2)
-	
+        json.dump(updated_data, file, ensure_ascii=False, indent=2)
+
     print("机厅人数已重置")
+
         
 # 获取 APScheduler 定时器
 scheduler = require("nonebot_plugin_apscheduler").scheduler
@@ -72,14 +89,6 @@ async def scheduled_task():
     
 
 STATE_FILE = "state.json"
-
-
-def read_state():
-    try:
-        with open('state.json', 'r', encoding='utf-8') as file:
-            return json.load(file)
-    except FileNotFoundError:
-        return []  # 如果文件不存在，返回空列表
   	
     
 jtj_handler = on_command("jtj", priority=10, block=True)
@@ -140,14 +149,6 @@ async def handle_arcade(bot: Bot, event: GroupMessageEvent):
 
 
 def get_response(message, user_nickname, arcades, group_region):
-    # 如果没有绑定区域，使用所有地区的机厅
-    if not group_region:
-        # 匹配所有机厅
-        for arcade in arcades:
-            for keyword in arcade["keywords"]:
-                if message.startswith(keyword):
-                    # 无绑定时提示用户绑定机厅
-                    return f"请发送 绑定机厅 <地区> 进行绑定"
     
     # 如果绑定了地区，过滤出绑定地区的机厅
     region_arcades = [arcade for arcade in arcades if arcade["region"] == group_region]
@@ -197,7 +198,63 @@ def save_state(arcades):
         json.dump(arcades, file, ensure_ascii=False, indent=2)
         
         
-        
+# 将新的机厅数据与已有的人数数据合并，并删除不在 arcade_data.py 中的机厅
+def sync_arcade_data():
+    # 读取当前 state.json 的数据
+    current_data = read_state()
+
+    # 构建一个以 "primary_keyword" 为键的字典，便于后续合并
+    current_data_map = {arcade["primary_keyword"]: arcade for arcade in current_data}
+
+    # 用来存储同步后的数据
+    updated_data = []
+
+    # 从 arcade_data.py 中获取所有的机厅关键词列表
+    arcade_primary_keywords = [arcade["primary_keyword"] for arcade in EMPTY_STATE]
+
+    # 遍历 arcade_data.py 中的 ARCADES 列表
+    for arcade in EMPTY_STATE:
+        primary_keyword = arcade["primary_keyword"]
+        # 如果 state.json 中有这个机厅，保留它的人数数据
+        if primary_keyword in current_data_map:
+            existing_arcade = current_data_map[primary_keyword]
+            arcade["peopleCount"] = existing_arcade.get("peopleCount", 0)
+            arcade["updatedBy"] = existing_arcade.get("updatedBy", "无")
+            arcade["lastUpdatedAt"] = existing_arcade.get("lastUpdatedAt", "04:00:00")
+        else:
+            # 如果是新的机厅，初始化人数数据
+            arcade["peopleCount"] = 0
+            arcade["updatedBy"] = "无"
+            arcade["lastUpdatedAt"] = "04:00:00"
+
+        updated_data.append(arcade)
+
+    # 删除 state.json 中不再存在于 arcade_data.py 的机厅
+    # 遍历 current_data，保留在 arcade_primary_keywords 中的机厅
+    updated_data = [arcade for arcade in updated_data if arcade["primary_keyword"] in arcade_primary_keywords]
+
+    # 将合并后的数据写回到 state.json 文件
+    with open(STATE_FILE, 'w', encoding='utf-8') as file:
+        json.dump(updated_data, file, ensure_ascii=False, indent=2)
+
+    print("同步成功，已将机厅数据更新到 state.json")
+
+# 定义同步指令
+sync_handler = on_command("更新机厅", priority=10, block=True)
+
+@sync_handler.handle()
+async def handle_sync(bot: Bot, event: GroupMessageEvent):
+    user_id = event.get_user_id()
+
+    # 如果用户不是超级用户，禁止同步
+    if user_id not in SUPERUSERS:
+        await sync_handler.send("您没有权限执行此操作")
+        return
+
+    # 调用同步函数
+    sync_arcade_data()
+
+    await sync_handler.send("机厅数据已更新！")
         
         
 GROUP_REGION_FILE = "group_region.json"
@@ -257,3 +314,6 @@ async def handle_unbind_region(bot: Bot, event: GroupMessageEvent):
     save_group_region(group_region)
 
     await unbind_region_handler.send("本群机厅已解绑")
+
+    
+    
